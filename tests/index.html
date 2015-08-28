@@ -1,0 +1,320 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Tests coverage for Pimp-my-array librairy</title>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <style>
+            #output div{
+                margin: 10px 0;
+                padding: 2px 10px;
+            }
+            .ok{
+                background-color: #99ff99;
+            }
+            .ko{
+                background-color: #ff9999;
+            }
+        </style>
+    </head>
+    <body>
+        <div id="output"></div>
+        <script src="../pimp-my-array.js"></script>
+        <script>
+            function assert(func, expected){
+                try{
+                    var result = func();
+                    if(result.equals(expected)){
+                        log("Test \"" + func.name + "\" succeeds with (" + result + ").", 1);
+                        ++assert.success;
+                    }
+                    else{
+                        log("Test \"" + func.name + "\" fails.<br/>Got (" + result + "), but should be (" + expected + ") instead.");
+                        ++assert.fail;
+                    }
+                }
+                catch(exception){
+                    if(exception.message == expected){
+                        log("Test \"" + func.name + "\" throw an (" + exception.message + ") exception as expected.", 1);
+                        ++assert.success;
+                    }
+                    else{
+                        log("Test \"" + func.name + "\" fails.<br/>Throw an (" + exception.message + ") exception but Should be (" + expected + ").");
+                        ++assert.fail;
+                    }
+                }
+            }
+            assert.fail = assert.success = 0;
+            function report(){
+                var sum = assert.fail+assert.success;
+                log("" + assert.fail + " tests fail out of " + sum + " (" + (assert.fail/sum*100).toFixed(2) + "%)", !assert.fail);
+            }
+            function log(message, success){
+                var output = document.getElementById("output");
+                output.innerHTML += "<div class='" + (success? "ok": "ko") + "'>" + message + "</div>";
+            }
+        </script>
+        <script>
+            var arr = [1, 2, 3, 4, 5]; arr["end"] = "hidden";
+            
+            // Tests equals
+            assert(function test_equals(){
+                var arr = [1, 2, 3]; arr["end"] = "hidden";
+                return arr.equals([1, 2, 3]);
+            }, false);
+            
+            // Tests append
+            assert(function test_append_default(){
+                var arr = [1, 2, 3, 4]; arr["end"] = "hidden";
+                return arr.append(5);
+            }, arr);
+            assert(function test_append_multi(){
+                var arr = [1, 2]; arr["end"] = "hidden";
+                return arr.append(3, 4, 5);
+            }, arr);
+            
+            // Test Prepend
+            assert(function test_prepend_default(){
+                var arr = [2, 3, 4, 5]; arr["end"] = "hidden";
+                return arr.prepend(1);
+            }, arr);
+            assert(function test_prepend_multi(){
+                var arr = [4, 5]; arr["end"] = "hidden";
+                return arr.prepend(3, 2, 1);
+            }, arr);
+            
+            // Tests trim
+            assert(function test_trimRight_default(){
+                var arr = [1, 2, 3, 4, 5, 6]; arr["end"] = "hidden";
+                return arr.trimRight();
+            }, arr);
+            assert(function test_trimRight_param(){
+                var arr = [1, 2, 3, 4, 5, 6, 7, 8]; arr["end"] = "hidden";
+                return arr.trimRight(3);
+            }, arr);
+            assert(function test_trimRight_throw(){
+                return [].trimRight("a");
+            }, "Parameter 1 [a] should be a Number");
+            assert(function test_trimLeft_default(){
+                var arr = [0, 1, 2, 3, 4, 5]; arr["end"] = "hidden";
+                return arr.trimLeft();
+            }, arr);
+            assert(function test_trimLeft_param(){
+                var arr = [0, 0, 0, 1, 2, 3, 4, 5]; arr["end"] = "hidden";
+                return arr.trimLeft(3);
+            }, arr);
+            assert(function test_trimLeft_throw(){
+                return [].trimLeft("a");
+            }, "Parameter 1 [a] should be a Number");
+            
+            // Tests head/tail
+            assert(function test_head_default(){
+                return [0, 1, 2].head();
+            }, [0]);
+            assert(function test_head_param(){
+                return [1, 2, 3].head(2);
+            }, [1, 2]);
+            assert(function test_head_empty(){
+                return [].head(3);
+            }, []);
+            assert(function test_head_throw(){
+                return [].head("a");
+            }, "Parameter 1 [a] should be a Number");
+            assert(function test_tail_default(){
+                return [1, 2, 3].tail();
+            }, [3]);
+            assert(function test_tail_param(){
+                return [1, 2, 3].tail(2);
+            }, [2, 3]);
+            assert(function test_tail_empty(){
+                return [].tail(3);
+            }, []);
+            assert(function test_tail_throw(){
+                return [].tail("a");
+            }, "Parameter 1 [a] should be a Number");
+            
+            // Tests merge
+            assert(function test_merge_default(){
+                var arr = [1, 2, 3]; arr["end"] = "hidden";
+                return arr.merge([4, 5]);
+            }, arr);
+            assert(function test_merge_value(){
+                var arr = [1, 2, 3, 4]; arr["end"] = "hidden";
+                return arr.merge(5);
+            }, arr);
+            assert(function test_merge_multi(){
+                var arr = [1, 2]; arr["end"] = "hidden";
+                return arr.merge(3, [4, 5]);
+            }, arr);
+            
+            // Tests out
+            assert(function test_out_default(){
+                var arr = [1, 2, 3, 4, 5, 6]; arr["end"] = "hidden";
+                return arr.out();
+            }, arr);
+            assert(function test_out_zero(){
+                var arr = [0, 1, 2, 3, 4, 5]; arr["end"] = "hidden";
+                return arr.out(0);
+            }, arr);
+            assert(function test_out_param(){
+                var arr = [1, 2, 3, "yo", 4, 5]; arr["end"] = "hidden";
+                return arr.out(3);
+            }, arr);
+            assert(function test_out_multi(){
+                var arr = [1, 2, "yo", 3, "yo", 4, 5, "yo"]; arr["end"] = "hidden";
+                return arr.out([2, 4, 7]);
+            }, arr);
+            assert(function test_out_unordered(){
+                var arr = [1, 2, 3, 4, 5]; arr["end"] = "hidden"; arr["one"] = "more";
+                return arr.out("one");
+            }, arr);
+            
+            // Tests keys
+            assert(function test_keys_default(){
+                var arr = [";)", 42, [1, 2]]; arr[19] = 19; arr["test"] = "ok";
+                return arr.keys();
+            }, [0, 1, 2, 19, "test"]);
+            assert(function test_keys_param(){
+                var arr = [";)", 42, [1, 2]]; arr[19] = 19; arr["test"] = "ok";
+                return arr.keys(true);
+            }, [0, 1, 2, 19]);
+            
+            // Test values
+            assert(function test_values_default(){
+                var arr = [";)", 42, [1, 2]]; arr[19] = 19; arr["test"] = "ok";
+                return arr.values();
+            }, [";)", 42, [1, 2], 19, "ok"]);
+            assert(function test_values_param(){
+                var arr = [";)", 42, [1, 2]]; arr[19] = 19; arr["test"] = "ok";
+                return arr.values(true);
+            }, [";)", 42, [1, 2], 19]);
+            
+            // Tests intersects
+            assert(function test_intersect_default(){
+                var arr = [0, 1, 2, 3, 4, 5, 6]; arr["end"] = "hidden"; arr["one"] = "more";
+                return arr.intersect([1, 2, 3, 4, 5, "hidden"]);
+            }, arr);
+            assert(function test_intersect_empty(){
+                return [1, 2, 3].intersect([7, 8, 9]);
+            }, []);
+            assert(function test_intersect_multiple(){
+                return [1, 2, 3].intersect([2, 2, 2]);
+            }, [2]);
+            assert(function test_intersect_throw(){
+                return [].intersect(159);
+            }, "Parameter 1 is not an Array");
+            assert(function test_intersectKeys_default(){
+                var arr = [1, 2, 3, 4, 5, 6]; arr["end"] = "hidden"; arr["one"] = "more";
+                var against = ["a", 0, "b", false, null]; against["end"] = "str";
+                return arr.intersectKeys(against);
+            }, arr);
+            assert(function test_intersectKeys_empty(){
+                var against = []; against["str"] = 42;
+                return [1, 2].intersectKeys(against);
+            }, []);
+            assert(function test_intersectKeys_throw(){
+                return [].intersectKeys(159);
+            }, "Parameter 1 is not an Array");
+            
+            // Tests contains
+            assert(function test_contains_default(){
+                return [1, 2, 3, "2", "3"].contains(2);
+            }, 2);
+            assert(function test_contains_strict(){
+                return [1, 2, 3, "2", "3"].contains(2, true);
+            }, 1);
+            assert(function test_contains_not(){
+                return [1, 2, 3, 2, 3].contains(42);
+            }, 0);
+            assert(function test_contains_regexp(){
+                return [123, 456, 789, 147, 159].contains(/^1/);
+            }, 3);
+            assert(function test_containsKeys_default(){
+                return [1, 2, 3].contains(1);
+            }, 1);
+            assert(function test_containsKeys_not(){
+                return [1, 2, 3].contains(42);
+            }, 0);
+            assert(function test_containsKeys_regexp(){
+                var arr = [1, 2, 3]; arr["k1"] = "v1";  arr["k2"] = "v2";  arr["ok"] = "check";
+                return arr.containsKey(/^k/);
+            }, 2);
+            
+            // Tests filters
+            assert(function test_filter_regexp(){
+                var arr = [1, 2, 99, 3, 4, 5, 99]; arr["end"] = "hidden"; arr["one"] = 99;
+                return arr.filter(/^(?!99).*/);
+            }, arr);
+            assert(function test_filter_function(){
+                var arr = [1, 2, 99, 3, 4, 5, 99]; arr["end"] = "hidden"; arr["one"] = 99;
+                return arr.filter(function(v){
+                    return v != 99;
+                });
+            }, arr);
+            assert(function test_filterKeys_regexp(){
+                var arr = [1, 2, 3, 4, 5, 99, 99]; arr["end"] = "hidden"; arr["one"] = 99;
+                return arr.filterKeys(/([5-9]|one)/);
+            }, arr);
+            assert(function test_filterKeys_function(){
+                var arr = [1, 2, 3, 4, 5, 99, 99]; arr["end"] = "hidden"; arr["one"] = 99;
+                return arr.filterKeys(function(k){
+                    return k > 4 || k == "one";
+                });
+            }, arr);
+            
+            // Tests shuffle
+            assert(function test_shuffle(){
+                return [1, 2, 3, 4].shuffle().size();
+            }, 4);
+            
+            // Tests random
+            assert(function test_random(){
+                return [3].random();
+            }, 3);
+            
+            // Tests implode and toString
+            assert(function test_implode_default(){
+                return [1, 2, 3].implode();
+            }, "1, 2, 3");
+            assert(function test_implode_param(){
+                return [4, 5, 6].implode("-");
+            }, "4-5-6");
+            assert(function test_toString_default(){
+                return ""+[7, "=)", 9];
+            }, "[7, =), 9]");
+            assert(function test_toString_undefined(){
+                var arr = []; arr[1] = 5;
+                return ""+arr;
+            }, "[5]");
+            
+            // Tests size
+            assert(function test_size_default(){
+                return [1, 2, 3].size();
+            }, 3);
+            assert(function test_size_unordered(){
+                var arr = [1, undefined, 0]; arr["str"] = "unordered";
+                return arr.size();
+            }, 4);
+            
+            // Tests equals
+            assert(function test_equals_default(){
+                return [1, 2, 3].equals([1, 2, 3]) && [""].equals([""]);
+            }, true);
+            assert(function test_equals_size(){
+                var arr = [1, 2, 3]; arr["any"] = "str";
+                return [1, 2, 3].equals([1, 2, 3, 4]) || [1, 2, 3].equals(arr);
+            }, false);
+            assert(function test_equals_values(){
+                return [1, 2, 3].equals([4, 5, 6]);
+            }, false);
+            assert(function test_equals_other(){
+                return [1, 2, 3].equals("coucou");
+            }, false);
+            assert(function test_equals_undefined(){
+                return [undefined].equals([]);
+            }, false);
+            
+            report();
+        </script>
+    </body>
+</html>

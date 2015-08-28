@@ -1,0 +1,29 @@
+{
+    "name": "Pimp-my-array",
+    "description": "",
+    "version": "1.0",
+    "author": {
+        "name": "Guillaume Martigny",
+        "email": "guillaume.martigny@gmail.com",
+        "url": "http://gmartigny.github.io"
+    },
+    "repository": {
+        "type": "git",
+        "url": "https://github.com/GMartigny/pimp-my-array.git"
+    },
+    "bugs": {
+        "url": "https://github.com/GMartigny/pimp-my-array.git/issues"
+    },
+    "licenses": [
+        
+    ],
+    "devDependencies": {
+        "jasmine": ""
+    },
+    "scripts": {
+        "test": "jasmine test/jasmine.js"
+    },
+    "keywords": [
+        
+    ]
+}

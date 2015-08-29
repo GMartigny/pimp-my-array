@@ -1,6 +1,6 @@
 describe("Pimp-my-array librairy", function(){
     
-    require("../pimp-my-array.min.js");
+    require("../pimp-my-array.js");
     
     var testCase = [1, 2, 3, 4, 5]; testCase["end"] = "hidden";
     
@@ -14,7 +14,7 @@ describe("Pimp-my-array librairy", function(){
         it("compares two array", function(){
             expect(testCase.equals(testCase)).toBe(true);
             expect(testCase.equals([1, 2, 3, 4, 5])).toBe(false);
-            expect(testCase.equals).toThrowError(TypeError, /not an Array/);
+            expect(testCase.equals).toThrowError(TypeError, /no parameter/gi);
         });
     });
     
@@ -29,7 +29,7 @@ describe("Pimp-my-array librairy", function(){
     
     describe("prepend()", function(){
         it("add a new value at the beginning", function(){
-            var arr = [2, 3, 4]; arr["end"] = "hidden";
+            var arr = [2, 3, 4, 5]; arr["end"] = "hidden";
             expect(arr.prepend(1)).toEqual(testCase);
             var arr = [4, 5]; arr["end"] = "hidden";
             expect(arr.prepend(3, 2, 1)).toEqual(testCase);
@@ -44,7 +44,7 @@ describe("Pimp-my-array librairy", function(){
             expect(arr.trimRight(3)).toEqual(testCase);
             expect(function(){
                 return [].trimRight("a");
-            }).toThrowError(TypeError, /should be a Number/);
+            }).toThrowError(TypeError, /should be a Number/gi);
         });
     });
     describe("trimLeft()", function(){

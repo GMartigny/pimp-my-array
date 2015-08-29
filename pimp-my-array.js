@@ -363,8 +363,12 @@ Array.prototype.size = function(){
  * @returns {Boolean} Return true if the arrays are the same, false otherwise or if it's not an array
  */
 Array.prototype.equals = function(another){
+    if(another == undefined)
+        throw new TypeError("No parameter given");
+    
     if(!another.isArray() || another.size() != this.size())
         return false;
+    
     var self = this,
         same = true;
     another.each(function(v, k){

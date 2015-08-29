@@ -1,7 +1,7 @@
 {
     "name": "Pimp-my-array",
     "description": "",
-    "version": "1.0",
+    "version": "1.0.0",
     "author": {
         "name": "Guillaume Martigny",
         "email": "guillaume.martigny@gmail.com",
@@ -18,7 +18,7 @@
         
     ],
     "devDependencies": {
-        "jasmine": ""
+        "jasmine": "2.3.x"
     },
     "scripts": {
         "test": "jasmine test/jasmine.js"

@@ -19,7 +19,7 @@
         "jasmine": "2.3.x"
     },
     "scripts": {
-        "test": "jasmine test/jasmine.js"
+        "test": "jasmine"
     },
     "keywords": ["array", "librairy"],
     "main": "./pimp-my-array.js"

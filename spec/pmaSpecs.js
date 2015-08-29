@@ -1,5 +1,7 @@
 describe("Pimp-my-array librairy", function(){
     
+    require("../pimp-my-array.min.js");
+    
     var testCase = [1, 2, 3, 4, 5]; testCase["end"] = "hidden";
     
     beforeEach(function(){

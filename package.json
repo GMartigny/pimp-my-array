@@ -1,6 +1,6 @@
 {
     "name": "Pimp-my-array",
-    "description": "",
+    "description": "A great improvement to javascript arrays",
     "version": "1.0.0",
     "author": {
         "name": "Guillaume Martigny",
@@ -14,16 +14,13 @@
     "bugs": {
         "url": "https://github.com/GMartigny/pimp-my-array.git/issues"
     },
-    "licenses": [
-        
-    ],
+    "licenses": [],
     "devDependencies": {
         "jasmine": "2.3.x"
     },
     "scripts": {
         "test": "jasmine test/jasmine.js"
     },
-    "keywords": [
-        
-    ]
+    "keywords": ["array", "librairy"],
+    "main": "./pimp-my-array.js"
 }

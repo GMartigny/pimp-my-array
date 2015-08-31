@@ -154,7 +154,7 @@ Array.prototype.merge = function(another){
 Array.prototype.indexOf = function(value, strict){
     var results = [];
     this.each(function(v, k){
-        if(v === value || strict && v == value)
+        if(v === value || !strict && v == value)
             results.append(k);
     });
     return results.length? results: false;
@@ -195,7 +195,7 @@ Array.prototype.values = function(onlyOrdered){
  */
 Array.prototype.intersect = function(another){
     if(!another.isArray())
-        throw new TypeError("Parameter 1 is not an Array");
+        throw new TypeError("Parameter 1 should be an Array");
     
     var tmp = [];
     this.each(function(v){
@@ -218,7 +218,7 @@ Array.prototype.intersect = function(another){
  */
 Array.prototype.intersectKeys = function(another){
     if(!another.isArray())
-        throw new TypeError("Parameter 1 is not an Array");
+        throw new TypeError("Parameter 1 should be an Array");
     
     var tmp = [];
     this.keys().each(function(k){
@@ -255,10 +255,12 @@ Array.prototype.each = function(callback){
 Array.prototype.contains = function(needle, strict){
     var found = 0;
     this.each(function(v){
-        if(needle instanceof RegExp && needle.test(v) || needle === v || !strict && needle == v)
+        if( needle instanceof RegExp && needle.test(v) ||
+            needle instanceof Function && needle.call(this, v) ||
+            needle === v || !strict && needle == v)
             ++found;
     });
-    return found;
+    return found == 0? false: found;
 };
 /**
  * Searches for a specific key in the array
@@ -271,10 +273,12 @@ Array.prototype.contains = function(needle, strict){
 Array.prototype.containsKey = function(needle){
     var found = 0;
     this.keys().each(function(k){
-        if(needle instanceof RegExp && needle.test(k) || needle === k)
+        if( needle instanceof RegExp && needle.test(k) ||
+            needle instanceof Function && needle.call(this, k) ||
+            needle === k)
             ++found;
     });
-    return found;
+    return found == 0? false: found;
 };
 
 /**
@@ -285,6 +289,9 @@ Array.prototype.containsKey = function(needle){
  * @returns {Array} Itself once edited
  */
 Array.prototype.filter = function(test){
+    if(test == undefined)
+        throw new TypeError("No parameter given");
+    
     var indexes = [];
     this.each(function(v, k){
         if((test instanceof RegExp) && !test.test(v) || (test instanceof Function) && !test.call(this, v))
@@ -301,7 +308,15 @@ Array.prototype.filter = function(test){
  * @returns {Array} Itself once edited
  */
 Array.prototype.filterKeys = function(test){
-    this.out(this.keys().filter(test));
+    if(test == undefined)
+        throw new TypeError("No parameter given");
+    
+    var indexes = [];
+    this.each(function(v, k){
+        if((test instanceof RegExp) && !test.test(k) || (test instanceof Function) && !test.call(this, k))
+            indexes.append(k);
+    });
+    this.out(indexes);
     return this;
 };
 

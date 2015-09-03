@@ -1,3 +1,7 @@
 language: node_js
 node_js:
-  - "stable"
+    - "stable"
+
+after_success:
+    - istanbul cover pimp-my-array.js
+    - codeclimate-test-reporter < lcov.info

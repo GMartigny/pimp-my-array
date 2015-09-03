@@ -16,12 +16,18 @@
     },
     "licenses": [],
     "devDependencies": {
-        "jasmine": "2.3.x"
+        "jasmine": "2.3.x",
+        "istanbul": "0.3.x",
+        "codeclimate-test-reporter": "0.1.x"
     },
     "scripts": {
         "test": "jasmine"
     },
-    "keywords": ["array", "librairy"],
+    "keywords": [
+        "javascript",
+        "array",
+        "librairy"
+    ],
     "main": "./pimp-my-array.js",
     "license": {
         "type": "mit"

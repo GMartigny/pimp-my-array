@@ -236,10 +236,21 @@ Array.prototype.intersectKeys = function(another){
  * @returns {Array} Itself once edited
  */
 Array.prototype.each = function(callback){
+    this.each.stop.beakIt = false;
     for(var k in this){
+        if(this.each.stop.beakIt)
+            break;
         if(this.hasOwnProperty(k))
             callback.call(this, this[k], (isNaN(+k)? k: +k));
     }
+    return this;
+};
+/**
+ * Stop this loop
+ * @returns {Array} Itself
+ */
+Array.prototype.each.stop = function(){
+    this.stop.beakIt = true;
     return this;
 };
 
@@ -250,15 +261,19 @@ Array.prototype.each = function(callback){
  * Should return true on matching item<br/>
  * - Or a regular expression to test
  * @param {Boolean} [strict=false] Set to true if you want a strict comparision
+ * @param {Boolean} [quick=false] Stop the execution at the first occurence (quicker)
  * @returns {Number} Number of occurence of the needle
  */
-Array.prototype.contains = function(needle, strict){
+Array.prototype.contains = function(needle, strict, quick){
     var found = 0;
     this.each(function(v){
         if( needle instanceof RegExp && needle.test(v) ||
             needle instanceof Function && needle.call(this, v) ||
-            needle === v || !strict && needle == v)
+            needle === v || !strict && needle == v){
             ++found;
+            if(quick)
+                this.each.stop();
+        }
     });
     return found == 0? false: found;
 };
@@ -268,15 +283,18 @@ Array.prototype.contains = function(needle, strict){
  * - A callback function for each key
  * Should return true on matching key<br/>
  * - Or a regular expression to test
+ * @param {Boolean} [quick=false] Stop the execution at the first occurence (quicker)
  * @returns {Number} Number of occurence of the needle
  */
-Array.prototype.containsKey = function(needle){
+Array.prototype.containsKey = function(needle, quick){
     var found = 0;
     this.keys().each(function(k){
         if( needle instanceof RegExp && needle.test(k) ||
             needle instanceof Function && needle.call(this, k) ||
             needle === k)
             ++found;
+            if(quick)
+                this.each.stop();
     });
     return found == 0? false: found;
 };
@@ -390,6 +408,64 @@ Array.prototype.equals = function(another){
         same &= (self[k] != undefined && self[k].equals(v));
     });
     return (same==true);
+};
+
+/**
+ * Find the smallest number on the array
+ * @param {Function} [test] A custom function to compare items
+ * @throws {TypeError} If the array is empty
+ * @returns {Number} The item considered the smallest
+ */
+Array.prototype.min = function(test){
+    if(!this.size())
+        throw new TypeError("Empty array");
+    
+    var min = this[0];
+    this.values().trimLeft().each(function(v){
+        if(test instanceof Function && test.call(this, v, min) || !isNaN(+v) && v < min)
+            min = v;
+    });
+    return min;
+};
+
+/**
+ * Find the hugest number on the array
+ * @param {Function} [test] A custom function to compare items
+ * @throws {TypeError} If the array is empty
+ * @returns {Number} The item considered the hugest
+ */
+Array.prototype.max = function(test){
+    if(!this.size())
+        throw new TypeError("Empty array");
+    
+    var max = this[0];
+    this.values().trimLeft().each(function(v){
+        if(test instanceof Function && test.call(this, v, max) || !isNaN(+v) && v > max)
+            max = v;
+    });
+    return max;
+};
+
+/**
+ * Removes duplicate item on the array
+ * @param {Function} [test] A function to tell if duplicate
+ * @returns {Array} Itself once edited
+ */
+Array.prototype.dedupe = function(test){
+    var dupeIndex = [],
+        selected = [],
+        self = this;
+    this.each(function(v1, k){
+        if(
+            selected.contains(function(v2){
+                return test instanceof Function && test.call(self, v1, v2) || v1 == v2;
+            })
+        )
+            dupeIndex.append(k);
+        else
+            selected.append(v1);
+    });
+    return this.out(dupeIndex);
 };
 
 if(!Object.prototype.equals){

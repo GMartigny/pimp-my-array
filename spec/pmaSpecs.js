@@ -140,6 +140,32 @@ describe("Pimp-my-array librairy", function(){
         });
     });
     
+    describe("each()", function(){
+        it("executes a function for each item", function(){
+            expect(function(){
+                var vals = [];
+                testCase.each(function(v){
+                    vals.append(v);
+                });
+                return vals;
+            }()).toEqual([1, 2, 3, 4, 5, "hidden"]);
+        });
+            
+        describe("stop()", function(){
+            it("stop the loop", function(){
+                expect(function(){
+                    var vals = [];
+                    testCase.each(function(v){
+                        vals.append(v);
+                        if(v > 2)
+                            this.each.stop();
+                    });
+                    return vals;
+                }()).toEqual([1, 2, 3]);
+            });
+        });
+    });
+    
     describe("contains()", function(){
         it("tells the number of occurence", function(){
             expect([2, "2", 2].contains(2)).toEqual(3);
@@ -215,6 +241,7 @@ describe("Pimp-my-array librairy", function(){
     
     describe("size()", function(){
         it("returns the size", function(){
+            expect([].size()).toEqual(0);
             expect(testCase.size()).toEqual(6);
         });
     });
@@ -224,6 +251,42 @@ describe("Pimp-my-array librairy", function(){
             expect(testCase.equals(testCase)).toBe(true);
             expect(testCase.equals([1, 2, 3, 4, 5])).toBe(false);
             expect(testCase.equals).toThrowError(TypeError, /no parameter/i);
+        });
+    });
+    
+    describe("min()", function(){
+        it("finds the smallest item", function(){
+            expect(testCase.min()).toEqual(1);
+            var arr = [{l: 5}, {l: 7}, {l: 3}];
+            expect(arr.min(function(value, min){
+                return value.l < min.l;
+            })).toEqual({l: 3});
+            expect(function(){
+                return [].min();
+            }).toThrowError(TypeError, /empty Array/i);
+        });
+    });
+    
+    describe("max()", function(){
+        it("finds the hugest item", function(){
+            expect(testCase.max()).toEqual(5);
+            var arr = [{l: 5}, {l: 7}, {l: 3}];
+            expect(arr.max(function(value, max){
+                return value.l > max.l;
+            })).toEqual({l: 7});
+            expect(function(){
+                return [].max();
+            }).toThrowError(TypeError, /empty Array/i);
+        });
+    });
+    
+    describe("dedupe()", function(){
+        it("remove duplicated item", function(){
+            expect([1, 1, 1, 2, 2, 2].dedupe()).toEqual([1, 2]);
+            var arr = [1]; arr["end"] = "hidden";
+            expect(testCase.dedupe(function(valA, valB){
+                return (typeof valA) == (typeof valB);
+            })).toEqual(arr);
         });
     });
 });

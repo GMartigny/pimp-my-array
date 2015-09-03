@@ -289,4 +289,12 @@ describe("Pimp-my-array librairy", function(){
             })).toEqual(arr);
         });
     });
+    
+    describe("compact()", function(){
+        it("reorder item without space", function(){
+            var arr = []; arr["end"] = "hidden";
+            arr[9] = 1; arr[99] = 2; arr[999] = 3; arr[9999] = 4; arr[99999] = 5;
+            expect(arr.compact()).toEqual(testCase);
+        });
+    });
 });

@@ -468,6 +468,21 @@ Array.prototype.dedupe = function(test){
     return this.out(dupeIndex);
 };
 
+/**
+ * Removes empty index from the array
+ * @returns {Array} Itself once edited
+ */
+Array.prototype.compact = function(){
+    var vals = this.values(true),
+        self = this;
+    
+    vals.each(function(v, k){
+        self[k] = v;
+    });
+    this.length = vals.length;
+    return this;
+};
+
 if(!Object.prototype.equals){
     /**
      * Compares with another object

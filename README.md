@@ -1,1 +1,4 @@
-# Pimp-my-array.js [![Build Status](https://travis-ci.org/GMartigny/pimp-my-array.svg?branch=master)](https://travis-ci.org/GMartigny/pimp-my-array) [![Coverage Status](https://coveralls.io/repos/GMartigny/pimp-my-array/badge.svg?branch=master&service=github)](https://coveralls.io/github/GMartigny/pimp-my-array?branch=master) [![Inline docs](http://inch-ci.org/github/GMartigny/pimp-my-array.svg?branch=master)](http://inch-ci.org/github/GMartigny/pimp-my-array)
+[![Build Status](https://travis-ci.org/GMartigny/pimp-my-array.svg?branch=master)](https://travis-ci.org/GMartigny/pimp-my-array)
+[![Test Coverage](https://codeclimate.com/github/GMartigny/pimp-my-array/badges/coverage.svg)](https://codeclimate.com/github/GMartigny/pimp-my-array/coverage)
+[![Inline docs](http://inch-ci.org/github/GMartigny/pimp-my-array.svg?branch=master)](http://inch-ci.org/github/GMartigny/pimp-my-array)
+# Pimp-my-array.js 

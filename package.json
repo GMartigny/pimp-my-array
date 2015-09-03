@@ -22,5 +22,8 @@
         "test": "jasmine"
     },
     "keywords": ["array", "librairy"],
-    "main": "./pimp-my-array.js"
+    "main": "./pimp-my-array.js",
+    "license": {
+        "type": "mit"
+    }
 }

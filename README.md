@@ -4,6 +4,8 @@
 [![Inline docs](http://inch-ci.org/github/GMartigny/pimp-my-array.svg?branch=master)](http://inch-ci.org/github/GMartigny/pimp-my-array)
 # Pimp-my-array.js
 
+[![Join the chat at https://gitter.im/GMartigny/pimp-my-array](https://badges.gitter.im/Join%20Chat.svg)](https://gitter.im/GMartigny/pimp-my-array?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
+
 ## What ?
 Pimp-my-array is a javascript librairy that improuves the native behaviour of array.
 

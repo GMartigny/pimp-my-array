@@ -21,7 +21,8 @@
         "codeclimate-test-reporter": "0.1.x"
     },
     "scripts": {
-        "test": "jasmine"
+        "test": "istanbul cover jasmine",
+        "debug": "jasmine"
     },
     "keywords": [
         "javascript",

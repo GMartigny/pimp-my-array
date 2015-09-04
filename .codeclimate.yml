@@ -1,6 +1,10 @@
 engines:
     eslint:
         enabled: true
+        checks:
+            # Can extends native objects
+            no-extend-native:
+                enabled: false
     fixme:
         enabled: true
 

@@ -2,6 +2,8 @@
  * Appends any set of value at the end of the array
  * @argument {...*} value A value to append
  * @returns {Array} Itself once edited
+ * @example [1, 2].append(3, 4);<br/>
+ * -> [1, 2, 3, 4]
  */
 Array.prototype.append = function(value){
     for(var k in arguments){
@@ -10,10 +12,13 @@ Array.prototype.append = function(value){
     }
     return this;
 };
+
 /**
  * Prepends any set of value at the beginning of the array
  * @argument {...*} value A value to prepend
  * @returns {Array} Itself once edited
+ * @example [1, 2].prepend(3, 4);<br/>
+ * -> [4, 3, 1, 2]
  */
 Array.prototype.prepend = function(value){
     for(var k in arguments){
@@ -26,11 +31,14 @@ Array.prototype.prepend = function(value){
     }
     return this;
 };
+
 /**
  * Removes the tail of the array
  * @param {Number} [n=1] Number of item to remove
  * @throws {TypeError} If the first parameter is not a number
  * @returns {Array} Itself once edited
+ * @example [1, 2, 3, 4].trimRight(2);<br/>
+ * -> |1, 2]
  */
 Array.prototype.trimRight = function(n){
     n = n || 1;
@@ -40,11 +48,14 @@ Array.prototype.trimRight = function(n){
     this.length -= n>this.length? this.length: n;
     return this;
 };
+
 /**
  * Removes the head of the array
  * @param {Number} [n=1] Number of item to remove
  * @throws {TypeError} If the first parameter is not a number
  * @returns {Array} Itself once edited
+ * @example [1, 2, 3, 4].trimLeft(2);<br/>
+ * -> [3, 4]
  */
 Array.prototype.trimLeft = function(n){
     n = n || 1;
@@ -57,11 +68,14 @@ Array.prototype.trimLeft = function(n){
     this.trimRight(n);
     return this;
 };
+
 /**
  * Returns the head of the array
  * @param {Number} [n=1] Number of item to retreive
  * @throws {TypeError} If the first parameter is not a number
  * @returns {Array} The n first values of the array
+ * @example [1, 2, 3, 4].head(2);<br/>
+ * -> [1, 2]
  */
 Array.prototype.head = function(n){
     n = n || 1;
@@ -75,11 +89,14 @@ Array.prototype.head = function(n){
     }
     return res;
 };
+
 /**
  * Returns the tail of the array
  * @param {Number} [n=1] Number of item to retreive
  * @throws {TypeError} If the first parameter is not a number
  * @returns {Array} The n last values of the array
+ * @example [1, 2, 3, 4].tail(2)<br/>
+ * -> [3, 4]
  */
 Array.prototype.tail = function(n){
     n = n || 1;
@@ -96,26 +113,30 @@ Array.prototype.tail = function(n){
 
 /**
  * Removes one entry from the array
- * @param {Number|String|Array} index The index of the item either ordered or not<br/>
+ * @param {...Number|String|Array} index The index of the item either ordered or not<br/>
  * Or an array of indexes
  * @returns {Array} Itself once edited
+ * @example [1, 2, 3, 4].out([0, 3], 1);<br/>
+ * -> [3]
  */
 Array.prototype.out = function(index){
-    if(index === undefined)
-        index = this.length-1;
-    
-    if(index.isArray()){
-        index = index.values().sort();
-        for(var i=index.length-1;i>=0;--i){
-            this.out(index[i]);
+    var indexes = [];
+    for(var k in arguments){
+        if(arguments.hasOwnProperty(k)){
+            indexes.merge(arguments[k]);
         }
     }
-    else{
+    if(!indexes.size())
+        indexes = [this.length-1];
+    else
+        indexes.sort();
+    
+    for(var i=indexes.length-1;i>=0;--i){
+        var index = indexes[i];
         if(isNaN(+index))
             delete(this[index]);
         else
             this.splice(index, 1);
-        
     }
     return this;
 };
@@ -124,6 +145,8 @@ Array.prototype.out = function(index){
  * Merges with any set of arrays
  * @argument {...Array} another An array to merge with
  * @returns {Array} Itself once edited
+ * @example [1, 2].merge(3, [4, 5]);<br/>
+ * -> [1, 2, 3, 4, 5]
  */
 Array.prototype.merge = function(another){
     var self = this;
@@ -150,6 +173,8 @@ Array.prototype.merge = function(another){
  * @param {type} value A value to search in the array
  * @param {Boolean} [strict=false] Set to true if you want a strict search
  * @returns {Array|Boolean} An array of the index or false if no result found
+ * @example [1, 2, 1, 3, 1].indexOf(1);<br/>
+ * -> [0, 2, 4]
  */
 Array.prototype.indexOf = function(value, strict){
     var results = [];
@@ -164,6 +189,8 @@ Array.prototype.indexOf = function(value, strict){
  * Returns all keys of the array
  * @param {Boolean} [onlyOrdered=false] Get only the ordered items keys
  * @returns {Array} An array of the keys
+ * @example [1, 3, 5, 7].keys();<br/>
+ * -> [0, 1, 2, 3]
  */
 Array.prototype.keys = function(onlyOrdered){
     var keys = [];
@@ -173,10 +200,13 @@ Array.prototype.keys = function(onlyOrdered){
     });
     return keys;
 };
+
 /**
  * Returns all values of the array
  * @param {Boolean} [onlyOrdered=false] Get only the ordered items values
  * @returns {Array} An array of the values
+ * @example [1, , 2, , , 3].values()<br/>
+ * -> [1, 2, 3]
  */
 Array.prototype.values = function(onlyOrdered){
     var val = [];
@@ -192,6 +222,8 @@ Array.prototype.values = function(onlyOrdered){
  * @param {Array} another An array to compare the values with
  * @throws {TypeError} if the first parameter is not an array
  * @returns {Array} The result of the intersection
+ * @example [0, 1, 2].intersect([1, 2, 3]);<br/>
+ * -> [1, 2]
  */
 Array.prototype.intersect = function(another){
     if(!another.isArray())
@@ -215,6 +247,8 @@ Array.prototype.intersect = function(another){
  * @param {Array} another An array to compare the keys with
  * @throws {TypeError} if the first parameter is not an array
  * @returns {Array} The result of the key's intersection
+ * @example [1, 2, , , 5].intersectKeys([, 1, 1]);<br/>
+ * -> [2]
  */
 Array.prototype.intersectKeys = function(another){
     if(!another.isArray())
@@ -234,6 +268,8 @@ Array.prototype.intersectKeys = function(another){
  * Browses each item on the array
  * @param {Function} callback A function to execute on each item
  * @returns {Array} Itself once edited
+ * @example [1, 2, 3].each(function(v, k){ this[k] = v+3; });<br/>
+ * -> [4, 5, 6]
  */
 Array.prototype.each = function(callback){
     this.each.stop.beakIt = false;
@@ -263,6 +299,8 @@ Array.prototype.each.stop = function(){
  * @param {Boolean} [strict=false] Set to true if you want a strict comparision
  * @param {Boolean} [quick=false] Stop the execution at the first occurence (quicker)
  * @returns {Number} Number of occurence of the needle
+ * @example [1, 1, 2, 1, 3].contains(1);<br/>
+ * -> 3
  */
 Array.prototype.contains = function(needle, strict, quick){
     var found = 0;
@@ -285,6 +323,8 @@ Array.prototype.contains = function(needle, strict, quick){
  * - Or a regular expression to test
  * @param {Boolean} [quick=false] Stop the execution at the first occurence (quicker)
  * @returns {Number} Number of occurence of the needle
+ * @example [1, 2, 3].containsKey(2);<br/>
+ * -> 1
  */
 Array.prototype.containsKey = function(needle, quick){
     var found = 0;
@@ -305,6 +345,8 @@ Array.prototype.containsKey = function(needle, quick){
  * Should return true on matching item<br/>
  * Or a regular expression to test
  * @returns {Array} Itself once edited
+ * @example ["a", 1, "a", "a", 2, 3].filter(/[1-9]/);<br/>
+ * -> [1, 2, 3]
  */
 Array.prototype.filter = function(test){
     if(test == undefined)
@@ -324,6 +366,8 @@ Array.prototype.filter = function(test){
  * Should return true on matching keys<br/>
  * Or a regular expression to test
  * @returns {Array} Itself once edited
+ * @example [1, 2, 3, 4].filterKeys(/[1-2]/);<br/>
+ * -> [2, 3]
  */
 Array.prototype.filterKeys = function(test){
     if(test == undefined)
@@ -341,6 +385,8 @@ Array.prototype.filterKeys = function(test){
 /**
  * Randomizes the ordered item of the array
  * @returns {Array} Itself once edited
+ * @example [1, 2, 3, 4].shuffle();<br/>
+ * -> [3, 1, 4, 2]
  */
 Array.prototype.shuffle = function(){
     var res = this.values(1);
@@ -353,6 +399,8 @@ Array.prototype.shuffle = function(){
 /**
  * Returns a random value out of the array
  * @returns {*} Any value picked randomly
+ * @example [1, 2, 3, 4].random();<br/>
+ * -> 3
  */
 Array.prototype.random = function(){
     var vals = this.values();
@@ -363,6 +411,8 @@ Array.prototype.random = function(){
  * Puts all the values in a single string
  * @param {String} [glue=", "] The separator of each value
  * @returns {String} A string containing all values of the array
+ * @example [1, 2, 3].implode("-");<br/>
+ * -> 1-2-3
  */
 Array.prototype.implode = function(glue){
     glue = glue || ", ";
@@ -377,6 +427,8 @@ Array.prototype.implode = function(glue){
 /**
  * Returns a string representation of the array
  * @returns {String} A JSON type string of the array
+ * @example [1, 2, 3].toString();<br/>
+ * -> [1, 2, 3]
  */
 Array.prototype.toString = function(){
     return "[" + this.implode() + "]";
@@ -385,6 +437,8 @@ Array.prototype.toString = function(){
 /**
  * Gives the real length of the array counting unordered items
  * @returns {Number} Number of item stored in the array
+ * @example [1, 2, , 3].size();<br/>
+ * -> 3
  */
 Array.prototype.size = function(){
     return this.values().length;
@@ -394,6 +448,8 @@ Array.prototype.size = function(){
  * Compares with another array
  * @param {*} another Anythings else
  * @returns {Boolean} Return true if the arrays are the same, false otherwise or if it's not an array
+ * @example [1, 2, 3].equals([1, 2, 3]);<br/>
+ * -> true
  */
 Array.prototype.equals = function(another){
     if(another == undefined)
@@ -415,6 +471,8 @@ Array.prototype.equals = function(another){
  * @param {Function} [test] A custom function to compare items
  * @throws {TypeError} If the array is empty
  * @returns {Number} The item considered the smallest
+ * @example [2, 3, 1].min();<br/>
+ * -> 1
  */
 Array.prototype.min = function(test){
     if(!this.size())
@@ -433,6 +491,8 @@ Array.prototype.min = function(test){
  * @param {Function} [test] A custom function to compare items
  * @throws {TypeError} If the array is empty
  * @returns {Number} The item considered the hugest
+ * @example [2, 3, 1].max();<br/>
+ * -> 3
  */
 Array.prototype.max = function(test){
     if(!this.size())
@@ -450,6 +510,8 @@ Array.prototype.max = function(test){
  * Removes duplicate item on the array
  * @param {Function} [test] A function to tell if duplicate
  * @returns {Array} Itself once edited
+ * @example [1, 2, 1, 3, 1, 2].dedupe();<br/>
+ * -> [1, 2, 3]
  */
 Array.prototype.dedupe = function(test){
     var dupeIndex = [],
@@ -471,6 +533,8 @@ Array.prototype.dedupe = function(test){
 /**
  * Removes empty index from the array
  * @returns {Array} Itself once edited
+ * @example [1, , 2, , , 3].compact();<br/>
+ * -> [1, 2, 3]
  */
 Array.prototype.compact = function(){
     var vals = this.values(true),
@@ -488,6 +552,8 @@ if(!Object.prototype.equals){
      * Compares with another object
      * @param {*} another Anythings else
      * @returns {Boolean} Return true if they're equals, false otherwise
+     * @example "hello".equals("world");<br/>
+     * -> false
      */
     Object.prototype.equals = function(another){
         return this == another;
@@ -497,6 +563,8 @@ if(!Object.prototype.equals){
 /**
  * Checks if this is an array
  * @returns {Boolean} Return true if it's and array, false otherwise
+ * @example [].isArray();<br/>
+ * -> true
  */
 Object.prototype.isArray = function(){
     return this instanceof Array;

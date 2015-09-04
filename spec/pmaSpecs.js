@@ -75,7 +75,7 @@ describe("Pimp-my-array librairy", function(){
             expect(testCase.tail()).toEqual([5]);
             expect(testCase.tail(3)).toEqual([3, 4, 5]);
             expect(function(){
-                return [1, 2, 3].head("a");
+                return [1, 2, 3].tail("a");
             }).toThrowError(TypeError, /should be a Number/i);
         });
     });
@@ -170,6 +170,7 @@ describe("Pimp-my-array librairy", function(){
         it("tells the number of occurence", function(){
             expect([2, "2", 2].contains(2)).toEqual(3);
             expect([2, "2", 2].contains(2, true)).toEqual(2);
+            expect([2, "2", 2].contains(2, true, true)).toEqual(1);
             expect(testCase.contains(function(v){
                 return v%2;
             })).toEqual(3);
@@ -187,6 +188,7 @@ describe("Pimp-my-array librairy", function(){
             var arr = [];
             arr["test"] = 1; arr["the"] = 1; arr["array"] = 1;
             expect(arr.containsKey(/e/)).toEqual(2);
+            expect(arr.containsKey(/e/, true)).toEqual(1);
             expect(testCase.containsKey(42)).toBe(false);
         });
     });

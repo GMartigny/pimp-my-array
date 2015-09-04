@@ -2,6 +2,7 @@
 [![Code Climate](https://codeclimate.com/github/GMartigny/pimp-my-array/badges/gpa.svg)](https://codeclimate.com/github/GMartigny/pimp-my-array)
 [![Test Coverage](https://codeclimate.com/github/GMartigny/pimp-my-array/badges/coverage.svg)](https://codeclimate.com/github/GMartigny/pimp-my-array/coverage)
 [![Inline docs](http://inch-ci.org/github/GMartigny/pimp-my-array.svg?branch=master)](http://inch-ci.org/github/GMartigny/pimp-my-array)
+[![Join the chat at https://gitter.im/GMartigny/pimp-my-array](https://img.shields.io/badge/Gitter-Join-blue.svg)](https://gitter.im/GMartigny/pimp-my-array?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
 # Pimp-my-array.js
 
 ## What ?

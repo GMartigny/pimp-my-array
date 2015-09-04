@@ -3,5 +3,4 @@ node_js:
     - "stable"
 
 after_success:
-    - istanbul cover ./pimp-my-array.js
     - codeclimate-test-reporter < ./coverage/lcov.info

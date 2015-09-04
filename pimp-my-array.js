@@ -488,7 +488,7 @@ Array.prototype.equals = function(another){
     another.each(function(v, k){
         same &= (self[k] != undefined && self[k].equals(v));
     });
-    return (same==true);
+    return (same == true);
 };
 
 /**
@@ -586,7 +586,7 @@ if(!Object.prototype.equals){
      * -> false
      */
     Object.prototype.equals = function(another){
-        return this == another;
+        return this === another;
     };
 }
 
@@ -597,5 +597,5 @@ if(!Object.prototype.equals){
  * -> true
  */
 Object.prototype.isArray = function(){
-    return this instanceof Array;
+    return (this instanceof Array);
 };

@@ -337,6 +337,7 @@
         });
         return (found == 0) ? false : found;
     };
+
     /**
      * Searches for a specific key in the array
      * @param {*} needle - The key to find<br/>
@@ -384,6 +385,7 @@
         });
         return this.out(indexes);
     };
+
     /**
      * Filters the array with item key
      * @param {Function|RegExp} test A callback function for each keys
@@ -416,7 +418,7 @@
     Array.prototype.shuffle = function(){
         var res = this.values(1);
         for(var i = 0, l = res.length; i < l; ++i){
-            this[i] = res.splice(Math.random() * res.length <<0, 1)[0];
+            this[i] = res.splice(Math.random() * res.length << 0, 1)[0];
         }
         return this;
     };
@@ -429,7 +431,7 @@
      */
     Array.prototype.random = function(){
         var vals = this.values();
-        return vals[Math.random() * vals.length <<0];
+        return vals[Math.random() * vals.length << 0];
     };
 
     /**
@@ -523,8 +525,9 @@
      * -> 3
      */
     Array.prototype.max = function(test){
-        if(!this.size())
+        if(!this.size()){
             throw new TypeError("Empty array");
+        }
 
         var max = this[0];
         this.values().trimLeft().each(function(v){

@@ -1,3 +1,4 @@
+"use strict";
 /**
  * Appends any set of value at the end of the array
  * @argument {...*} value A value to append
@@ -7,8 +8,9 @@
  */
 Array.prototype.append = function(value){
     for(var k in arguments){
-        if(arguments.hasOwnProperty(k))
+        if(arguments.hasOwnProperty(k)){
             this[this.length] = arguments[k];
+        }
     }
     return this;
 };
@@ -23,8 +25,8 @@ Array.prototype.append = function(value){
 Array.prototype.prepend = function(value){
     for(var k in arguments){
         if(arguments.hasOwnProperty(k)){
-            for(var i=this.length;i>0;--i){
-                this[i] = this[i-1];
+            for(var i = this.length; i > 0; --i){
+                this[i] = this[i - 1];
             }
             this[0] = arguments[k];
         }
@@ -42,10 +44,11 @@ Array.prototype.prepend = function(value){
  */
 Array.prototype.trimRight = function(n){
     n = n || 1;
-    if(isNaN(n))
-        throw new TypeError("Parameter 1 ["+n+"] should be a Number");
+    if(isNaN(+n)){
+        throw new TypeError("Parameter 1 [" + n + "] should be a Number");
+    }
     
-    this.length -= n>this.length? this.length: n;
+    this.length -= (n > this.length) ? this.length : n;
     return this;
 };
 
@@ -59,14 +62,14 @@ Array.prototype.trimRight = function(n){
  */
 Array.prototype.trimLeft = function(n){
     n = n || 1;
-    if(isNaN(n))
-        throw new TypeError("Parameter 1 ["+n+"] should be a Number");
-    
-    for(var i=0, l=this.length-n;i<l;++i){
-        this[i] = this[i+n];
+    if(isNaN(+n)){
+        throw new TypeError("Parameter 1 [" + n + "] should be a Number");
     }
-    this.trimRight(n);
-    return this;
+    
+    for(var i = 0, l = this.length - n; i < l; ++i){
+        this[i] = this[i + n];
+    }
+    return this.trimRight(n);
 };
 
 /**
@@ -79,13 +82,15 @@ Array.prototype.trimLeft = function(n){
  */
 Array.prototype.head = function(n){
     n = n || 1;
-    if(isNaN(n))
-        throw new TypeError("Parameter 1 ["+n+"] should be a Number");
+    if(isNaN(+n)){
+        throw new TypeError("Parameter 1 [" + n + "] should be a Number");
+    }
     
     var res = [];
-    for(var i=0;i<n;++i){
-        if(this[i] !== undefined)
+    for(var i = 0; i < n; ++i){
+        if(this[i] !== undefined){
             res.append(this[i]);
+        }
     }
     return res;
 };
@@ -100,13 +105,15 @@ Array.prototype.head = function(n){
  */
 Array.prototype.tail = function(n){
     n = n || 1;
-    if(isNaN(n))
-        throw new TypeError("Parameter 1 ["+n+"] should be a Number");
+    if(isNaN(+n)){
+        throw new TypeError("Parameter 1 [" + n + "] should be a Number");
+    }
     
     var res = [];
-    for(var i=this.length-n, l=this.length;i<l;++i){
-        if(this[i] !== undefined)
+    for(var i = this.length-n, l = this.length; i < l; ++i){
+        if(this[i] !== undefined){
             res.append(this[i]);
+        }
     }
     return res;
 };
@@ -126,17 +133,21 @@ Array.prototype.out = function(index){
             indexes.merge(arguments[k]);
         }
     }
-    if(!indexes.size())
-        indexes = [this.length-1];
-    else
+    if(!indexes.size()){
+        indexes = [this.length - 1];
+    }
+    else{
         indexes.sort();
+    }
     
-    for(var i=indexes.length-1;i>=0;--i){
+    for(var i = indexes.length - 1; i >= 0; --i){
         var index = indexes[i];
-        if(isNaN(+index))
+        if(isNaN(+index)){
             delete(this[index]);
-        else
+        }
+        else{
             this.splice(index, 1);
+        }
     }
     return this;
 };
@@ -155,14 +166,17 @@ Array.prototype.merge = function(another){
             var arg = arguments[i];
             if(arg.isArray()){
                 arg.each(function(v, k){
-                    if(isNaN(+k))
+                    if(isNaN(+k)){
                         self[k] = v;
-                    else
+                    }
+                    else{
                         self.append(v);
+                    }
                 });
             }
-            else
+            else{
                 this.append(arg);
+            }
         }
     }
     return this;
@@ -179,10 +193,11 @@ Array.prototype.merge = function(another){
 Array.prototype.indexOf = function(value, strict){
     var results = [];
     this.each(function(v, k){
-        if(v === value || !strict && v == value)
+        if(v === value || !strict && v == value){
             results.append(k);
+        }
     });
-    return results.length? results: false;
+    return results.length ? results : false;
 };
 
 /**
@@ -195,8 +210,9 @@ Array.prototype.indexOf = function(value, strict){
 Array.prototype.keys = function(onlyOrdered){
     var keys = [];
     this.each(function(v, k){
-        if(!onlyOrdered || onlyOrdered && !isNaN(+k))
+        if(!onlyOrdered || onlyOrdered && !isNaN(+k)){
             keys.append(k);
+        }
     });
     return keys;
 };
@@ -211,8 +227,9 @@ Array.prototype.keys = function(onlyOrdered){
 Array.prototype.values = function(onlyOrdered){
     var val = [];
     this.each(function(v, k){
-        if(!onlyOrdered || onlyOrdered && !isNaN(+k))
+        if(!onlyOrdered || onlyOrdered && !isNaN(+k)){
             val.append(v);
+        }
     });
     return val;
 };
@@ -226,8 +243,9 @@ Array.prototype.values = function(onlyOrdered){
  * -> [1, 2]
  */
 Array.prototype.intersect = function(another){
-    if(!another.isArray())
+    if(!another.isArray()){
         throw new TypeError("Parameter 1 should be an Array");
+    }
     
     var tmp = [];
     this.each(function(v){
@@ -251,17 +269,17 @@ Array.prototype.intersect = function(another){
  * -> [2]
  */
 Array.prototype.intersectKeys = function(another){
-    if(!another.isArray())
+    if(!another.isArray()){
         throw new TypeError("Parameter 1 should be an Array");
+    }
     
     var tmp = [];
     this.keys().each(function(k){
-        if(!another.containsKey(k))
+        if(!another.containsKey(k)){
             tmp.append(k);
+        }
     });
-    this.out(tmp);
-    
-    return this;
+    return this.out(tmp);
 };
 
 /**
@@ -274,10 +292,12 @@ Array.prototype.intersectKeys = function(another){
 Array.prototype.each = function(callback){
     this.each.stop.beakIt = false;
     for(var k in this){
-        if(this.each.stop.beakIt)
+        if(this.each.stop.beakIt){
             break;
-        if(this.hasOwnProperty(k))
-            callback.call(this, this[k], (isNaN(+k)? k: +k));
+        }
+        if(this.hasOwnProperty(k)){
+            callback.call(this, this[k], (isNaN(+k) ? k : +k));
+        }
     }
     return this;
 };
@@ -305,15 +325,16 @@ Array.prototype.each.stop = function(){
 Array.prototype.contains = function(needle, strict, quick){
     var found = 0;
     this.each(function(v){
-        if( needle instanceof RegExp && needle.test(v) ||
-            needle instanceof Function && needle.call(this, v) ||
+        if( (needle instanceof RegExp) && needle.test(v) ||
+            (needle instanceof Function) && needle.call(this, v) ||
             needle === v || !strict && needle == v){
             ++found;
-            if(quick)
+            if(quick){
                 this.each.stop();
+            }
         }
     });
-    return found == 0? false: found;
+    return (found == 0) ? false : found;
 };
 /**
  * Searches for a specific key in the array
@@ -329,14 +350,15 @@ Array.prototype.contains = function(needle, strict, quick){
 Array.prototype.containsKey = function(needle, quick){
     var found = 0;
     this.keys().each(function(k){
-        if( needle instanceof RegExp && needle.test(k) ||
-            needle instanceof Function && needle.call(this, k) ||
+        if( (needle instanceof RegExp) && needle.test(k) ||
+            (needle instanceof Function) && needle.call(this, k) ||
             needle === k)
             ++found;
-            if(quick)
+            if(quick){
                 this.each.stop();
+            }
     });
-    return found == 0? false: found;
+    return (found == 0) ? false : found;
 };
 
 /**
@@ -349,16 +371,17 @@ Array.prototype.containsKey = function(needle, quick){
  * -> [1, 2, 3]
  */
 Array.prototype.filter = function(test){
-    if(test == undefined)
+    if(test == undefined){
         throw new TypeError("No parameter given");
+    }
     
     var indexes = [];
     this.each(function(v, k){
-        if((test instanceof RegExp) && !test.test(v) || (test instanceof Function) && !test.call(this, v))
+        if((test instanceof RegExp) && !test.test(v) || (test instanceof Function) && !test.call(this, v)){
             indexes.append(k);
+        }
     });
-    this.out(indexes);
-    return this;
+    return this.out(indexes);
 };
 /**
  * Filters the array with item key
@@ -370,16 +393,17 @@ Array.prototype.filter = function(test){
  * -> [2, 3]
  */
 Array.prototype.filterKeys = function(test){
-    if(test == undefined)
+    if(test == undefined){
         throw new TypeError("No parameter given");
+    }
     
     var indexes = [];
     this.each(function(v, k){
-        if((test instanceof RegExp) && !test.test(k) || (test instanceof Function) && !test.call(this, k))
+        if((test instanceof RegExp) && !test.test(k) || (test instanceof Function) && !test.call(this, k)){
             indexes.append(k);
+        }
     });
-    this.out(indexes);
-    return this;
+    return this.out(indexes);
 };
 
 /**
@@ -390,8 +414,8 @@ Array.prototype.filterKeys = function(test){
  */
 Array.prototype.shuffle = function(){
     var res = this.values(1);
-    for(var i=0,l=res.length;i<l;++i){
-        this[i] = res.splice(Math.random()*res.length<<0, 1)[0];
+    for(var i = 0, l = res.length; i < l; ++i){
+        this[i] = res.splice(Math.random() * res.length <<0, 1)[0];
     }
     return this;
 };
@@ -404,7 +428,7 @@ Array.prototype.shuffle = function(){
  */
 Array.prototype.random = function(){
     var vals = this.values();
-    return vals[Math.random()*vals.length<<0];
+    return vals[Math.random() * vals.length <<0];
 };
 
 /**
@@ -418,10 +442,9 @@ Array.prototype.implode = function(glue){
     glue = glue || ", ";
     var str = "";
     this.each(function(v){
-        str += glue+v;
+        str += glue + v;
     });
-    str = str.substr(glue.toString().length);
-    return str;
+    return str.substr(glue.toString().length);
 };
 
 /**
@@ -452,11 +475,13 @@ Array.prototype.size = function(){
  * -> true
  */
 Array.prototype.equals = function(another){
-    if(another == undefined)
+    if(another == undefined){
         throw new TypeError("No parameter given");
+    }
     
-    if(!another.isArray() || another.size() != this.size())
+    if(!another.isArray() || another.size() != this.size()){
         return false;
+    }
     
     var self = this,
         same = true;
@@ -475,13 +500,15 @@ Array.prototype.equals = function(another){
  * -> 1
  */
 Array.prototype.min = function(test){
-    if(!this.size())
+    if(!this.size()){
         throw new TypeError("Empty array");
+    }
     
     var min = this[0];
     this.values().trimLeft().each(function(v){
-        if(test instanceof Function && test.call(this, v, min) || !isNaN(+v) && v < min)
+        if((test instanceof Function) && test.call(this, v, min) || !isNaN(+v) && v < min){
             min = v;
+        }
     });
     return min;
 };
@@ -500,8 +527,9 @@ Array.prototype.max = function(test){
     
     var max = this[0];
     this.values().trimLeft().each(function(v){
-        if(test instanceof Function && test.call(this, v, max) || !isNaN(+v) && v > max)
+        if((test instanceof Function) && test.call(this, v, max) || !isNaN(+v) && v > max){
             max = v;
+        }
     });
     return max;
 };
@@ -520,12 +548,14 @@ Array.prototype.dedupe = function(test){
     this.each(function(v1, k){
         if(
             selected.contains(function(v2){
-                return test instanceof Function && test.call(self, v1, v2) || v1 == v2;
+                return (test instanceof Function) && test.call(self, v1, v2) || v1 == v2;
             })
-        )
+        ){
             dupeIndex.append(k);
-        else
+        }
+        else{
             selected.append(v1);
+        }
     });
     return this.out(dupeIndex);
 };

@@ -1,10 +1,10 @@
 # Pimp-my-array.js
-[![Build Status](https://travis-ci.org/GMartigny/pimp-my-array.svg?branch=master)](https://travis-ci.org/GMartigny/pimp-my-array)
+[![Build Status](https://travis-ci.org/GMartigny/pimp-my-natives.svg?branch=master)](https://travis-ci.org/GMartigny/pimp-my-natives)
 [![Code Climate](https://codeclimate.com/github/GMartigny/pimp-my-array/badges/gpa.svg)](https://codeclimate.com/github/GMartigny/pimp-my-array)
 [![Test Coverage](https://codeclimate.com/github/GMartigny/pimp-my-array/badges/coverage.svg)](https://codeclimate.com/github/GMartigny/pimp-my-array/coverage)
 [![Inline docs](http://inch-ci.org/github/GMartigny/pimp-my-array.svg?branch=master)](http://inch-ci.org/github/GMartigny/pimp-my-array)
 [![devDependency Status](https://david-dm.org/GMartigny/pimp-my-array/dev-status.svg)](https://david-dm.org/GMartigny/pimp-my-array#info=devDependencies)
-[![Dowloads](https://img.shields.io/github/downloads/GMartigny/pimp-my-array/latest/total.svg)](https://github.com/GMartigny/pimp-my-array/releases/latest)
+[![Dowloads](https://img.shields.io/github/downloads/GMartigny/pimp-my-array/latest/total.svg)](https://github.com/GMartigny/pimp-my-natives/releases/latest)
 [![Join the chat at https://gitter.im/GMartigny/pimp-my-array](https://img.shields.io/badge/Gitter-Join-blue.svg)](https://gitter.im/GMartigny/pimp-my-array?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
 
 ## What ?

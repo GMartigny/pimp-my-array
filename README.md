@@ -7,6 +7,8 @@
 [![Dowloads](https://img.shields.io/github/downloads/GMartigny/pimp-my-array/latest/total.svg)](https://github.com/GMartigny/pimp-my-natives/releases/latest)
 [![Join the chat at https://gitter.im/GMartigny/pimp-my-array](https://img.shields.io/badge/Gitter-Join-blue.svg)](https://gitter.im/GMartigny/pimp-my-array?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
 
+[![Join the chat at https://gitter.im/GMartigny/pimp-my-array](https://badges.gitter.im/Join%20Chat.svg)](https://gitter.im/GMartigny/pimp-my-array?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
+
 ## What ?
 Pimp-my-array is a javascript librairy that improuves the native behaviour of array.
 
